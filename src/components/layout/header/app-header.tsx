@@ -3,6 +3,8 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/themes/mode-toggle"
 import ThemeSwitcher from "@/components/themes/theme-switcher"
+import { Input } from "../../ui/input"
+import { SearchDialog } from "./search-modal"
 
 const AppHeader = () => {
   return (
@@ -28,6 +30,7 @@ const AppHeader = () => {
         </Breadcrumb>
       </div>
       <div className="flex items-center space-x-3">
+      <SearchDialog/>
         <ThemeSwitcher />
         <ModeToggle />
       </div>

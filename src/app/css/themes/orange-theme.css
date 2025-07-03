@@ -34,8 +34,8 @@
   --sidebar-foreground: oklch(0.129 0.042 264.695);
   --sidebar-primary: oklch(0.705 0.213 47.604);    /* Orange */
   --sidebar-primary-foreground: oklch(0.98 0.016 73.684);
-  --sidebar-accent: oklch(0.968 0.007 247.896);    /* Slate muted */
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-accent: oklch(0.98 0.096 80.784);
+  --sidebar-accent-foreground: oklch(0.985 40 0);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.705 0.213 47.604);       /* Orange */
 }
