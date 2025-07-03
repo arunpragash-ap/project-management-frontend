@@ -15,7 +15,7 @@ const ColorThemeContext = createContext<ColorThemeContextType>({
 export const useColorTheme = () => useContext(ColorThemeContext);
 
 export const ColorThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [colorTheme, setColorThemeState] = useState<string>('theme-default');
+  const [colorTheme, setColorThemeState] = useState<string>('orange-theme');
 
   const setColorTheme = (theme: string) => {
     setColorThemeState(theme);
@@ -26,7 +26,7 @@ export const ColorThemeProvider = ({ children }: { children: React.ReactNode }) 
   
     // Remove previous theme-* classes
     html.classList.forEach((cls) => {
-      if (cls.startsWith('theme-')) {
+      if (cls.endsWith('-theme')) {
         html.classList.remove(cls);
       }
     });
