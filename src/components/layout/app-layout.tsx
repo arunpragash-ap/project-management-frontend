@@ -1,7 +1,7 @@
 
 import { AppSidebar } from "@/components/layout/app-sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import AppHeader from "./app-header";
+import AppHeader from "./header/app-header";
 import { Card } from "../ui/card";
 
 const AppLayout = ({ children }: {children:React.ReactNode}) => {
