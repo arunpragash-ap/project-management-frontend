@@ -1,81 +1,101 @@
-# Project Management UI
+# Project Management Frontend
 
-A modern, customizable project management dashboard built with [Next.js](https://nextjs.org), [Radix UI](https://www.radix-ui.com/), and [Tailwind CSS](https://tailwindcss.com/).
+A personal project management dashboard UI, built with Next.js, TypeScript, and shadcn-ui.
 
-## Table of Contents
+## Status: Prototype
 
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Development Server](#running-the-development-server)
-- [Scripts](#scripts)
-- [Project Structure](#project-structure)
-- [Toast Notifications](#toast-notifications)
-- [Customization](#customization)
-- [Deployment](#deployment)
-- [License](#license)
+This is an early-stage UI scaffold. The application shell (layout, sidebar, header, theming,
+auth screens) is in place, but there is no backend integration yet: forms don't submit anywhere,
+sidebar/breadcrumb links and the search dialog use placeholder or mock data, and there are no
+tests or CI. See [Known limitations](./ARCHITECTURE.md#known-limitations) in ARCHITECTURE.md
+for details.
+
+## Overview
+
+The goal of this project is a project-management app for tracking projects and organizing tasks.
+Right now it implements the visual shell an app like that would be built on top of: a themeable
+dashboard layout with a collapsible sidebar, a command-style search dialog, light/dark mode plus
+several color themes, toast notifications, and login/signup screens. Actual project/task data and
+any backend connection are not implemented yet.
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router, Turbopack dev server), React 19
+- **Language:** TypeScript
+- **UI components:** shadcn-ui (`new-york` style) on top of Radix UI primitives
+- **Styling:** Tailwind CSS v4, with CSS-variable-based color themes
+- **Other libraries:** `next-themes` (light/dark mode), `sonner` (toasts), `date-fns` and
+  `react-day-picker` (calendar UI component, not currently wired into any page),
+  `lucide-react` (icons), `axios` (listed in `package.json`, not used anywhere in `src/` yet)
+- **Package manager:** pnpm (lockfile is `pnpm-lock.yaml`)
+- **Linting:** ESLint (`next/core-web-vitals`, `next/typescript`)
 
 ## Features
 
-- **Dashboard Layout:** Responsive sidebar, header, and content area for scalable project management UIs.
-- **Theme Switching:** Easily toggle between multiple color themes and light/dark/system modes.
-- **Calendar Demo:** Interactive date picker component on the main page.
-- **Modern UI Components:** Built with Radix UI primitives and Tailwind CSS for accessibility and rapid development.
+- **App shell / dashboard layout** — sidebar, header, and scrollable content area
+  (`src/components/layout/app-layout.tsx`, `app-sidebar.tsx`, `header/app-header.tsx`)
+- **Color theming** — switch between 8 color themes (orange, blue, red, violet, green, rose,
+  yellow, default) via CSS classes on `<html>`, plus a separate light/dark/system mode toggle
+  (`src/contexts/theme-context/`, `src/components/themes/`, `src/css/themes/`)
+- **Command-style search dialog** — Ctrl/Cmd+K search modal with keyboard navigation
+  (`src/components/layout/header/search-modal.tsx`); currently searches a hardcoded, docs-style
+  mock dataset rather than real app content
+- **Toast notifications** — a themed wrapper (`useCustomToast`) around `sonner`
+  (`src/lib/toast-util.tsx`)
+- **Login / signup screens** — a single dynamic route (`src/app/[auth]/`) renders either form
+  based on the URL segment; forms are UI-only (no submit handler, validation, or API call)
+- **Create Workspace dialog** — a modal form (`src/app/workspace/workspace-modal.tsx`) with no
+  submit handler yet
+- **Dashboard placeholder page** — `src/app/dashboard/page.tsx` renders empty skeleton blocks
+
+## Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the component diagram and a folder-by-folder
+breakdown.
+
+## Folder Structure
+
+```
+src/
+├── app/            Next.js App Router pages ([auth], dashboard, workspace, home)
+├── components/     Layout (sidebar/header), theme controls, and shadcn-ui primitives
+├── contexts/       React context providers (color theme, next-themes wrapper)
+├── css/            Global styles and per-color-theme CSS variable files
+├── hooks/          Custom hooks (e.g. use-mobile)
+└── lib/            Utilities (toast helper, className helper)
+```
 
 ## Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or newer recommended)
-- [pnpm](https://pnpm.io/) (or use npm/yarn/bun)
+
+- Node.js
+- pnpm (the repo ships a `pnpm-lock.yaml`; npm/yarn will also work but aren't the lockfile source)
 
 ### Installation
 
-Clone the repository and install dependencies:
-
 ```bash
 pnpm install
-# or
-yarn install
-# or
-npm install
 ```
 
 ### Running the Development Server
 
 ```bash
 pnpm dev
-# or
-yarn dev
-# or
-npm run dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-## Scripts
+### Other Scripts
 
-- `dev` – Start the development server
-- `build` – Build for production
-- `start` – Start the production server
-- `lint` – Run ESLint
+- `pnpm build` — production build
+- `pnpm start` — start the production server
+- `pnpm lint` — run ESLint
 
-## Project Structure
-
-- `src/app/` – Application routes and pages
-- `src/components/` – UI and layout components
-- `src/contexts/` – Theme and other React context providers
-- `src/hooks/` – Custom React hooks
-- `src/lib/` – Utility functions
-
-## Toast Notifications
-
-The project includes a custom toast utility for displaying notifications. Here's how to use it:
+## Usage: Toast Notifications
 
 ```tsx
-import { useCustomToast } from '@/src/lib/toast-util';
+import { useCustomToast } from '@/lib/toast-util';
 
 export default function MyComponent() {
   const showToast = useCustomToast();
@@ -92,23 +112,6 @@ export default function MyComponent() {
 }
 ```
 
-### Toast Options
-- `title` (string): Main message (required)
-- `description` (string): Optional subtext
-- `level` ('success' | 'error' | 'warning'): Toast type (default: 'success')
-
-The toast automatically adapts to the current theme (light/dark).
-
-## Customization
-
-- **Themes:** Change color themes using the theme switcher in the header.
-- **Dark/Light Mode:** Toggle using the mode button in the header.
-- **Sidebar:** Add or modify navigation items in `src/components/layout/app-sidebar.tsx`.
-
-## Deployment
-
-Deploy easily on [Vercel](https://vercel.com/) or any platform supporting Next.js.
-
-## License
-
-This project is for demonstration and rapid prototyping purposes. Extend it to fit your needs!
+- `title` (string): main message (required)
+- `description` (string): optional subtext
+- `level` (`'success' | 'error' | 'warning'`): toast type, default `'success'`
